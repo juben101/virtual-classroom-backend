@@ -5,15 +5,21 @@ const bodyParser = require("body-parser");
 const { SessionsClient } = require("@google-cloud/dialogflow");
 const uuid = require("uuid");
 
-
 const app = express();
 app.use(bodyParser.json());
-app.use(cors()); // 🛠️ This line allows cross-origin requests
+app.use(cors());
 
-const projectId = "virtualclassroombot-uavl"; // 🛑 Replace this
-const keyFilePath = "./dialogflow-key.json"; // Keep file in same folder
+// ✅ Load Dialogflow credentials from Render environment variable
+const credentials = JSON.parse(process.env.DIALOGFLOW_KEY_JSON);
 
-const sessionClient = new SessionsClient({ keyFilename: keyFilePath });
+const sessionClient = new SessionsClient({
+  credentials: {
+    client_email: credentials.client_email,
+    private_key: credentials.private_key
+  }
+});
+
+const projectId = credentials.project_id;
 
 app.post("/chat", async (req, res) => {
   const { message } = req.body;
