@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@google-cloud/dialogflow": "^6.4.0",
+    "@google-cloud/translate": "^9.1.0",
     "body-parser": "^1.20.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
